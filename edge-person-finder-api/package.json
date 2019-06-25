@@ -13,6 +13,7 @@
     "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
   },
   "devDependencies": {
+    "aws-sdk": "^2.481.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-source-map-support": "^1.0.0",
@@ -26,7 +27,6 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "aws-sdk": "^2.480.0",
     "babel-runtime": "^6.26.0",
     "source-map-support": "^0.4.18",
     "uuid": "^3.3.2"
