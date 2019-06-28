@@ -3,6 +3,7 @@ import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 import "./NewPerson.css";
+import { API } from "aws-amplify";
 
 export default class NewNote extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class NewNote extends Component {
 
     this.state = {
       isLoading: null,
+      personName: "",
       content: ""
     };
   }
@@ -42,7 +44,24 @@ export default class NewNote extends Component {
     }
 
     this.setState({ isLoading: true });
+
+    try {
+      await this.upload({
+        name: this.state.personName,
+        attachment: "test.jpg"
+      });
+      this.props.history.push("/");
+    } catch (e) {
+      alert(e);
+      this.setState({ isLoading: false });
+    }
   };
+
+  upload(person) {
+    return API.post("waldo-edge", "/upload", {
+      body: person
+    });
+  }
 
   render() {
     return (
@@ -52,22 +71,9 @@ export default class NewNote extends Component {
             <ControlLabel>Name</ControlLabel>
             <FormControl
               type="text"
-              value={this.state.value}
+              value={this.state.name}
               placeholder="Richard Nixon"
               onChange={this.handleChange}
-            />
-            <ControlLabel>Contact Phone Number</ControlLabel>
-            <FormControl
-              type="text"
-              value={this.state.value}
-              placeholder="XXX-XXX-XXXX"
-              onChange={this.handleChange}
-            />
-            <ControlLabel>Notes</ControlLabel>
-            <FormControl
-              onChange={this.handleChange}
-              value={this.state.content}
-              componentClass="textarea"
             />
           </FormGroup>
           <FormGroup controlId="file">
