@@ -1,5 +1,4 @@
 export default {
-  MAX_ATTACHMENT_SIZE: 5000000,
   s3: {
     REGION: "us-west-2",
     BUCKET: "people-finder-photos"
