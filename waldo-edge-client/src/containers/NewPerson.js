@@ -13,13 +13,12 @@ export default class NewNote extends Component {
 
     this.state = {
       isLoading: null,
-      personName: "",
-      content: ""
+      name: ""
     };
   }
 
   validateForm() {
-    return this.state.content.length > 0;
+    return this.state.name.length > 0;
   }
 
   handleChange = event => {
@@ -47,8 +46,7 @@ export default class NewNote extends Component {
 
     try {
       await this.upload({
-        name: this.state.personName,
-        attachment: "test.jpg"
+        name: this.state.name
       });
       this.props.history.push("/");
     } catch (e) {
@@ -67,7 +65,7 @@ export default class NewNote extends Component {
     return (
       <div className="NewPerson">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="content">
+          <FormGroup controlId="name">
             <ControlLabel>Name</ControlLabel>
             <FormControl
               type="text"
