@@ -16,6 +16,8 @@ export async function main(event, context, callback) {
       personID: uuid.v1(),
       personName: data.name,
       attachment: data.attachment,
+      phone: data.phone,
+      notes: data.notes,
       createdAt: Date.now()
     }
   };
