@@ -4,6 +4,7 @@ import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 import "./NewPerson.css";
 import { API } from "aws-amplify";
+import { s3Upload } from "../libs/awsLib";
 
 export default class NewNote extends Component {
   constructor(props) {
@@ -13,7 +14,9 @@ export default class NewNote extends Component {
 
     this.state = {
       isLoading: null,
-      name: ""
+      name: "",
+      phone: "",
+      notes: ""
     };
   }
 
@@ -45,8 +48,12 @@ export default class NewNote extends Component {
     this.setState({ isLoading: true });
 
     try {
+      const attachment = this.file ? await s3Upload(this.file) : null;
       await this.upload({
-        name: this.state.name
+        attachment,
+        name: this.state.name,
+        phone: this.state.phone,
+        notes: this.state.notes
       });
       this.props.history.push("/");
     } catch (e) {
@@ -74,8 +81,26 @@ export default class NewNote extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
+          <FormGroup controlId="phone">
+            <ControlLabel>Contact Phone Number</ControlLabel>
+            <FormControl
+              type="text"
+              value={this.state.phone}
+              placeholder="XXX-XXX-XXXX"
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup controlId="notes">
+            <ControlLabel>Notes</ControlLabel>
+            <FormControl
+              onChange={this.handleChange}
+              value={this.state.notes}
+              placeholder="Last seen at corner of 12th and madison . . ."
+              componentClass="textarea"
+            />
+          </FormGroup>
           <FormGroup controlId="file">
-            <ControlLabel>Attachment</ControlLabel>
+            <ControlLabel>Attach photos below</ControlLabel>
             <FormControl onChange={this.handleFileChange} type="file" />
           </FormGroup>
           <LoaderButton
