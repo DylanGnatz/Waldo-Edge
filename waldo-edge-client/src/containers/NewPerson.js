@@ -1,3 +1,4 @@
+import uuid from "uuid";
 import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
@@ -48,9 +49,11 @@ export default class NewNote extends Component {
     this.setState({ isLoading: true });
 
     try {
+      const personID = uuid.v1();
       const attachment = this.file ? await s3Upload(this.file) : null;
       await this.upload({
         attachment,
+        ID: personID,
         name: this.state.name,
         phone: this.state.phone,
         notes: this.state.notes
