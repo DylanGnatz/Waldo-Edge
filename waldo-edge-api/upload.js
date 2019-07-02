@@ -1,4 +1,3 @@
-import uuid from "uuid";
 import { success, failure } from "./libs/response-lib";
 import * as dynamoDbLib from "./libs/dynamodb-lib";
 import AWS from "aws-sdk";
@@ -13,7 +12,7 @@ export async function main(event, context, callback) {
     TableName: "people",
     Item: {
       userId: event.requestContext.identity.cognitoIdentityId,
-      personID: uuid.v1(),
+      personID: data.ID,
       personName: data.name,
       attachment: data.attachment,
       phone: data.phone,
