@@ -26,7 +26,7 @@ def sendAlert(payload):
 
     
     response_code = hologram.sendMessage(payload,
-                                    topics=["example-topic"])
+                                    topics=["waldo-edge"])
     print hologram.getResultString(response_code)
 
     hologram.network.disconnect()
