@@ -31,7 +31,7 @@ for (i, imagePath) in enumerate(imagePaths):
 	print("[INFO] processing image {}/{}".format(i + 1,
 		len(imagePaths)))
 	name = imagePath.split(os.path.sep)[-2]
- 
+'''
 	# load the input image and convert it from BGR (OpenCV ordering)
 	# to dlib ordering (RGB)
 	image = cv2.imread(imagePath)
@@ -55,6 +55,8 @@ for (i, imagePath) in enumerate(imagePaths):
 # dump the facial encodings + names to disk
 print("[INFO] serializing encodings...")
 data = {"encodings": knownEncodings, "names": knownNames}
+'''
+
 f = open(args["encodings"], "wb")
 f.write(pickle.dumps(data))
 f.close()
