@@ -1,7 +1,7 @@
 #Based on https://www.pyimagesearch.com/2018/06/25/raspberry-pi-face-recognition/ by Adrian Rosebrock
 # import the necessary packages
 from imutils import paths
-import face_recognition
+#import face_recognition
 import argparse
 import pickle
 import cv2
@@ -13,7 +13,7 @@ ap.add_argument("-i", "--dataset", required=True,
 	help="path to input directory of faces + images")
 ap.add_argument("-e", "--encodings", required=True,
 	help="path to serialized db of facial encodings")
-ap.add_argument("-d", "--detection-method", type=str, default="cnn",
+ap.add_argument("-d", "--detection-method", type=str, default="hog",
 	help="face detection model to use: either `hog` or `cnn`")
 args = vars(ap.parse_args())
 
@@ -30,7 +30,12 @@ for (i, imagePath) in enumerate(imagePaths):
 	# extract the person name from the image path
 	print("[INFO] processing image {}/{}".format(i + 1,
 		len(imagePaths)))
-	name = imagePath.split(os.path.sep)[-2]
+	imgname = imagePath.split(os.path.sep)[-1]
+	splitname = imgname.split(".")[0]
+	splitname = splitname.split("-")
+	name = {"personID": splitname[0], "personName": splitname[1], "fileName": splitname[2]}
+	knownNames.append(name)
+
 '''
 	# load the input image and convert it from BGR (OpenCV ordering)
 	# to dlib ordering (RGB)
@@ -55,8 +60,11 @@ for (i, imagePath) in enumerate(imagePaths):
 # dump the facial encodings + names to disk
 print("[INFO] serializing encodings...")
 data = {"encodings": knownEncodings, "names": knownNames}
-'''
+
+
+
 
 f = open(args["encodings"], "wb")
 f.write(pickle.dumps(data))
 f.close()
+'''
