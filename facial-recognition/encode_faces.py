@@ -1,11 +1,12 @@
 #Based on https://www.pyimagesearch.com/2018/06/25/raspberry-pi-face-recognition/ by Adrian Rosebrock
 # import the necessary packages
 from imutils import paths
-#import face_recognition
+from face_recognition import face_recognition
 import argparse
 import pickle
 import cv2
 import os
+import dlib
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -33,10 +34,10 @@ for (i, imagePath) in enumerate(imagePaths):
 	imgname = imagePath.split(os.path.sep)[-1]
 	splitname = imgname.split(".")[0]
 	splitname = splitname.split("-")
-	name = {"personID": splitname[0], "personName": splitname[1], "fileName": splitname[2]}
-	knownNames.append(name)
+	details = {"personID": splitname[0], "personName": splitname[1], "fileName": splitname[2]}
+	knownNames.append(details)
 
-'''
+
 	# load the input image and convert it from BGR (OpenCV ordering)
 	# to dlib ordering (RGB)
 	image = cv2.imread(imagePath)
@@ -45,7 +46,7 @@ for (i, imagePath) in enumerate(imagePaths):
 	# detect the (x, y)-coordinates of the bounding boxes
 	# corresponding to each face in the input image
 	boxes = face_recognition.face_locations(rgb,
-		model=args["detection_method"])
+		model=args["detection_method"]) 
  
 	# compute the facial embedding for the face
 	encodings = face_recognition.face_encodings(rgb, boxes)
@@ -55,7 +56,7 @@ for (i, imagePath) in enumerate(imagePaths):
 		# add each encoding + name to our set of known names and
 		# encodings
 		knownEncodings.append(encoding)
-		knownNames.append(name)
+		#knownNames.append(name)
 
 # dump the facial encodings + names to disk
 print("[INFO] serializing encodings...")
@@ -67,4 +68,4 @@ data = {"encodings": knownEncodings, "names": knownNames}
 f = open(args["encodings"], "wb")
 f.write(pickle.dumps(data))
 f.close()
-'''
+
