@@ -79,7 +79,7 @@ while True:
 			# loop over the matched indexes and maintain a count for
 			# each recognized face face
 			for i in matchedIdxs:
-				name = data["names"][i]
+				name = data["details"][i]["personName"]
 				counts[name] = counts.get(name, 0) + 1
 
 			# determine the recognized face with the largest number
