@@ -1,4 +1,5 @@
-def search(name):
-    for p in people:
-        if p['name'] == name:
-            return p
+def list_dicts_contains(searchList, searchKey, searchVal):
+    for i in searchList:
+        if i[searchKey] == searchVal:
+            return true
+    return false
