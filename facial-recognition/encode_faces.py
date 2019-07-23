@@ -33,7 +33,8 @@ for (i, imagePath) in enumerate(imagePaths):
     imgname = imagePath.split(os.path.sep)[-1]
     if not contains_util.list_dicts_contains(data["details"], "imageName", imgname):
         # extract the person name from the image path
-        print("[INFO] processing image {}".format(i + 1)
+        print("[INFO] processing image {}/{}".format(i + 1,
+            len(imagePaths)))
         splitname = imgname.split(".")[0]
         splitname = splitname.split("-")
         details = {"imageName": imgname, "personID": splitname[0], "personName": splitname[1], "fileName": splitname[2]}
