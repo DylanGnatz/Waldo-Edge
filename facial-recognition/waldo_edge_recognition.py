@@ -5,6 +5,7 @@
 from imutils.video import VideoStream
 from imutils.video import FPS
 import face_recognition
+import send_alert_hologram
 import argparse
 import imutils
 import pickle
@@ -34,6 +35,7 @@ time.sleep(2.0)
 # start the FPS counter
 fps = FPS().start()
 
+lastFound = None
 # loop over frames from the video file stream
 while True:
 	# grab the frame from the threaded video stream and resize it
@@ -75,17 +77,25 @@ while True:
 			# was matched
 			matchedIdxs = [i for (i, b) in enumerate(matches) if b]
 			counts = {}
+			nameDict = {}
 
 			# loop over the matched indexes and maintain a count for
 			# each recognized face face
 			for i in matchedIdxs:
 				name = data["details"][i]["personName"]
+				nameDict.update(name : data["details"])
 				counts[name] = counts.get(name, 0) + 1
 
 			# determine the recognized face with the largest number
 			# of votes (note: in the event of an unlikely tie Python
 			# will select first entry in the dictionary)
 			name = max(counts, key=counts.get)
+
+			if name != lastFound:
+				id = nameDict[name]["personID"]
+				location = "Toronto"
+				send_alert_hologram.foundPerson(name, id, location)
+
 		
 		# update the list of names
 		names.append(name)
@@ -94,7 +104,7 @@ while True:
 	for ((top, right, bottom, left), name) in zip(boxes, names):
 		# draw the predicted face name on the image
 		cv2.rectangle(frame, (left, top), (right, bottom),
-			(0, 255, 0), 2)
+			(0, 255, 0), 2) 
 		y = top - 15 if top - 15 > 15 else top + 15
 		cv2.putText(frame, name, (left, y), cv2.FONT_HERSHEY_SIMPLEX,
 			0.75, (0, 255, 0), 2)
