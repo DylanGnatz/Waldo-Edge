@@ -31,7 +31,7 @@ knownNames = []
 # loop over the image paths
 for (i, imagePath) in enumerate(imagePaths):
 	imgname = imagePath.split(os.path.sep)[-1]
-	if contains_util(data, "imageName", imgname):
+	if not contains_util(data["names"], "imageName", imgname):
 		# extract the person name from the image path
 		print("[INFO] processing image {}/{}".format(i + 1,
 			len(imagePaths)))
