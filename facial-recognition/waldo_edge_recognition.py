@@ -12,6 +12,7 @@ import pickle
 import time
 import cv2
 
+DEVICE_LOCATION = "Newport 2";
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-c", "--cascade", required=True,
@@ -26,6 +27,9 @@ print("[INFO] loading encodings + face detector...")
 data = pickle.loads(open(args["encodings"], "rb").read())
 detector = cv2.CascadeClassifier(args["cascade"])
 
+#init Hologram sender
+hologram = send_alert_hologram.HologramSender()
+
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
 vs = VideoStream(src=0).start()
@@ -34,6 +38,7 @@ time.sleep(2.0)
 
 # start the FPS counter
 fps = FPS().start()
+
 
 lastFound = None
 # loop over frames from the video file stream
@@ -83,7 +88,7 @@ while True:
 			# each recognized face face
 			for i in matchedIdxs:
 				name = data["details"][i]["personName"]
-				nameDict.update(name : data["details"])
+				nameDict.update({name:data["details"][i]})
 				counts[name] = counts.get(name, 0) + 1
 
 			# determine the recognized face with the largest number
@@ -93,8 +98,9 @@ while True:
 
 			if name != lastFound:
 				id = nameDict[name]["personID"]
-				location = "Toronto"
-				send_alert_hologram.foundPerson(name, id, location)
+				location = DEVICE_LOCATION
+				hologram.foundPerson(name, id, location)
+				lastFound = name
 
 		
 		# update the list of names
