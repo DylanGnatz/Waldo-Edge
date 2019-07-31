@@ -51,7 +51,7 @@ export default class NewNote extends Component {
     try {
       const personID = uuid.v1();
       const attachment = this.file
-        ? await s3Upload(this.file, personID, this.state.name)
+        ? await s3Upload(this.file, personID, this.state.name, this.state.phone)
         : null;
       await this.upload({
         attachment,
