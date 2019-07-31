@@ -13,14 +13,15 @@ class HologramSender:
     def __del__(self):
         self.hologram.network.disconnect()
 
-    def foundPerson(self, name, ID, location):
-        payload = self.formatPayload(name, ID, location)
+    def foundPerson(self, name, ID, location, phone):
+        payload = self.formatPayload(name, ID, location, phone)
         return self.sendAlert()
 
-    def formatPayload(self, name, ID, location):
+    def formatPayload(self, name, ID, location, phone):
         payloadDict = {}
         payloadDict['name'] = name
         payloadDict['ID'] = ID
+        payloadDict['phoneNumber'] = phone
         payloadDict['location'] = location
         payloadDict['datetime'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         jsonPayload = json.dumps(payloadDict)
