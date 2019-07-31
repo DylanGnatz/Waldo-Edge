@@ -98,8 +98,9 @@ while True:
 
 			if name != lastFound:
 				id = nameDict[name]["personID"]
+				phone = nameDict[name]["phoneNumber"]
 				location = DEVICE_LOCATION
-				hologram.foundPerson(name, id, location)
+				hologram.foundPerson(name, id, location, phone)
 				lastFound = name
 
 		
