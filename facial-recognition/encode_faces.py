@@ -36,8 +36,8 @@ for (i, imagePath) in enumerate(imagePaths):
         print("[INFO] processing image {}/{}".format(i + 1,
             len(imagePaths)))
         splitname = imgname.split(".")[0]
-        splitname = splitname.split("-")
-        details = {"imageName": imgname, "personID": splitname[0], "personName": splitname[1], "fileName": splitname[2]}
+        splitname = splitname.split("_")
+        details = {"imageName": imgname, "personID": splitname[0], "personName": splitname[1], "phoneNumber": splitname[2]}
         knownNames.append(details)
 
 
